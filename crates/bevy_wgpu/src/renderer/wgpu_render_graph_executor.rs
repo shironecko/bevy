@@ -4,9 +4,11 @@ use bevy_render::{
     render_graph::{Edge, NodeId, ResourceSlots, StageBorrow},
     renderer::RenderResourceContext,
 };
+use bevy_utils::HashMap;
 use parking_lot::RwLock;
-use std::{collections::HashMap, sync::Arc};
+use std::sync::Arc;
 
+#[derive(Debug)]
 pub struct WgpuRenderGraphExecutor {
     pub max_thread_count: usize,
 }
@@ -58,14 +60,14 @@ impl WgpuRenderGraphExecutor {
                                 let outputs = if let Some(outputs) = node_outputs.get(output_node) {
                                     outputs
                                 } else {
-                                    panic!("node inputs not set")
+                                    panic!("Node inputs not set.")
                                 };
 
                                 let output_resource =
-                                    outputs.get(*output_index).expect("output should be set");
+                                    outputs.get(*output_index).expect("Output should be set.");
                                 input_slot.resource = Some(output_resource);
                             } else {
-                                panic!("no edge connected to input")
+                                panic!("No edge connected to input.")
                             }
                         }
                         node_state.node.update(
